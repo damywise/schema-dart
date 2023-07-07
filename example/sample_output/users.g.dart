@@ -56,7 +56,8 @@ class Users {
       emailChangeTokenNew: map['email_change_token_new'],
       updatedAt: DateTime.tryParse(map['updated_at'] ?? ""),
       email: map['email'],
-      emailChangeConfirmStatus: int.tryParse(map['email_change_confirm_status'] ?? ""),
+      emailChangeConfirmStatus:
+          int.tryParse(map['email_change_confirm_status'] ?? ""),
       encryptedPassword: map['encrypted_password'],
       invitedAt: DateTime.tryParse(map['invited_at'] ?? ""),
       emailChangeTokenCurrent: map['email_change_token_current'],
@@ -180,10 +181,12 @@ class Users {
       emailChangeTokenNew: emailChangeTokenNew ?? this.emailChangeTokenNew,
       updatedAt: updatedAt ?? this.updatedAt,
       email: email ?? this.email,
-      emailChangeConfirmStatus: emailChangeConfirmStatus ?? this.emailChangeConfirmStatus,
+      emailChangeConfirmStatus:
+          emailChangeConfirmStatus ?? this.emailChangeConfirmStatus,
       encryptedPassword: encryptedPassword ?? this.encryptedPassword,
       invitedAt: invitedAt ?? this.invitedAt,
-      emailChangeTokenCurrent: emailChangeTokenCurrent ?? this.emailChangeTokenCurrent,
+      emailChangeTokenCurrent:
+          emailChangeTokenCurrent ?? this.emailChangeTokenCurrent,
       aud: aud ?? this.aud,
       emailChange: emailChange ?? this.emailChange,
       confirmationToken: confirmationToken ?? this.confirmationToken,

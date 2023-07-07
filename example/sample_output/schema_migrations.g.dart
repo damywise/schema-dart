@@ -11,7 +11,8 @@ class SchemaMigrations {
     );
   }
 
-  factory SchemaMigrations.fromJson(String source) => SchemaMigrations.fromMap(json.decode(source));
+  factory SchemaMigrations.fromJson(String source) =>
+      SchemaMigrations.fromMap(json.decode(source));
 
   final String version;
 

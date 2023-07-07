@@ -25,7 +25,8 @@ class RefreshTokens {
     );
   }
 
-  factory RefreshTokens.fromJson(String source) => RefreshTokens.fromMap(json.decode(source));
+  factory RefreshTokens.fromJson(String source) =>
+      RefreshTokens.fromMap(json.decode(source));
 
   final bool? revoked;
 

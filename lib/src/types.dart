@@ -9,7 +9,8 @@ class Table {
 
   Table(this.tableName, this.columns);
 
-  String get dartClassName => tableName.convertSnakeCaseToCamelCase().toUpperCaseFirst();
+  String get dartClassName =>
+      tableName.convertSnakeCaseToCamelCase().toUpperCaseFirst();
 
   @override
   String toString() {
@@ -112,7 +113,8 @@ String getDartType(String postgresType, bool isNullable) {
       break;
     case '_json':
     case '_jsonb':
-      dartType = 'List<Object>'; // this can be different types (e.g. List<List> or List<Map>)
+      dartType =
+          'List<Object>'; // this can be different types (e.g. List<List> or List<Map>)
       break;
     case '_timestamptz':
       dartType = 'List<DateTime>';

@@ -17,7 +17,8 @@ class AuditLogEntries {
     );
   }
 
-  factory AuditLogEntries.fromJson(String source) => AuditLogEntries.fromMap(json.decode(source));
+  factory AuditLogEntries.fromJson(String source) =>
+      AuditLogEntries.fromMap(json.decode(source));
 
   final DateTime? createdAt;
 
@@ -64,7 +65,10 @@ class AuditLogEntries {
 
   @override
   int get hashCode {
-    return createdAt.hashCode ^ id.hashCode ^ instanceId.hashCode ^ payload.hashCode;
+    return createdAt.hashCode ^
+        id.hashCode ^
+        instanceId.hashCode ^
+        payload.hashCode;
   }
 
   @override

@@ -23,7 +23,8 @@ class Identities {
     );
   }
 
-  factory Identities.fromJson(String source) => Identities.fromMap(json.decode(source));
+  factory Identities.fromJson(String source) =>
+      Identities.fromMap(json.decode(source));
 
   final DateTime? updatedAt;
 

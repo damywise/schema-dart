@@ -19,7 +19,8 @@ class Instances {
     );
   }
 
-  factory Instances.fromJson(String source) => Instances.fromMap(json.decode(source));
+  factory Instances.fromJson(String source) =>
+      Instances.fromMap(json.decode(source));
 
   final String? uuid;
 
@@ -72,7 +73,11 @@ class Instances {
 
   @override
   int get hashCode {
-    return uuid.hashCode ^ updatedAt.hashCode ^ rawBaseConfig.hashCode ^ id.hashCode ^ createdAt.hashCode;
+    return uuid.hashCode ^
+        updatedAt.hashCode ^
+        rawBaseConfig.hashCode ^
+        id.hashCode ^
+        createdAt.hashCode;
   }
 
   @override

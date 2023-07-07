@@ -19,6 +19,8 @@ class SchemaConverter {
 
   final _tables = <Table>[];
 
+  String _outputSchema = '';
+
   SchemaConverter({
     required this.connectionString,
     required this.outputDirectory,
@@ -36,7 +38,8 @@ class SchemaConverter {
     // generate source code
     Log.trace('generating dart classes');
     progress = Log.progress('generating dart source code for tables');
-    await _addDartSourceToTables();
+    // await _addDartSourceToTables();
+    _generateOutputSchema();
     progress.finish(message: 'sources were generated.');
 
     // write sources to output directory
@@ -51,7 +54,8 @@ class SchemaConverter {
     Log.trace('connecting to database');
     await reader.connect();
     Log.trace('calling TablesReader.getTables');
-    final tables = await reader.getTables(schemaName: schemaName, tableNames: tableNames);
+    final tables =
+        await reader.getTables(schemaName: schemaName, tableNames: tableNames);
     Log.trace('disconnecting the database');
     await reader.disconnect();
     _tables.clear();
@@ -66,13 +70,31 @@ class SchemaConverter {
     await generator.addDartSourceToTables();
   }
 
+  void _generateOutputSchema() {
+    final generator = TypesGenerator(
+      outputDirectory: outputDirectory,
+      tables: _tables,
+    );
+    _outputSchema = generator.generateSchema();
+  }
+
   Future<void> _writeFilesToOutputDirectory() async {
     final futures = <Future>[];
-    Log.trace('writing files');
-    for (final table in _tables) {
-      final file = File(p.join(outputDirectory.path, table.tableName + '.g.dart'));
-      futures.add(file.create(recursive: true).then((value) => file.writeAsString(table.source)));
-    }
+    Log.trace('writing schema');
+    // Log.trace('writing files');
+    final file = File(p.join(outputDirectory.path, 'schema.g.dart'));
+    futures.add(
+      file
+          .create(recursive: true)
+          .then((value) => file.writeAsString(_outputSchema)),
+    );
+    // for (final table in _tables) {
+    //   final file =
+    //       File(p.join(outputDirectory.path, table.tableName + '.g.dart'));
+    //   futures.add(file
+    //       .create(recursive: true)
+    //       .then((value) => file.writeAsString(table.source)));
+    // }
 
     await Future.wait(futures);
   }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
+import 'package:schema_dart/src/util.dart';
 
 import 'data_class_builder.dart';
 import 'types.dart';
@@ -26,6 +27,58 @@ class TypesGenerator {
       final source = builder.build();
       table.source = formatter.format(source);
     }
+  }
+
+  String generateSchema() {
+    var output = '';
+
+    output += 'enum DatabaseTables {';
+    for (final table in tables) {
+      output +=
+          '${table.tableName.convertSnakeCaseToCamelCase()}("${table.tableName}"),';
+    }
+    print(output);
+    output += '''
+    ;
+      const DatabaseTables(this.name);
+      final String name;
+    ''';
+    output += '}';
+
+    output +=
+        'typedef SchemaColumn = ({String name, Type dartType, String dataType, bool nullable});';
+    output += 'typedef Schema = Map<DatabaseTables, List<SchemaColumn>>;';
+
+    output += 'final Schema schema = {';
+    for (final table in tables) {
+      final sortColumnId = table.columns
+          .where((element) => element.columnName.startsWith('id'))
+          .toList()
+        ..sort((a, b) {
+          return a.columnName.compareTo(b.columnName);
+        });
+      final sortColumnNotId = table.columns
+          .where((element) => !element.columnName.startsWith('id'))
+          .toList()
+        ..sort((a, b) {
+          return a.columnName.compareTo(b.columnName);
+        });
+      final sortedColumns = sortColumnId + sortColumnNotId;
+      output +=
+          'DatabaseTables.${table.tableName.convertSnakeCaseToCamelCase()}: [';
+      for (final column in sortedColumns) {
+        output += '(';
+        output += 'name: "${column.columnName}",';
+        output += 'dartType: ${column.dartType.replaceAll('?', '')},';
+        output += 'dataType: "${column.dataType}",';
+        output += 'nullable: ${column.isNullable},';
+        output += '),';
+      }
+      output += '],';
+    }
+    output += '};';
+    output = formatter.format(output);
+    return output;
   }
 }
 
